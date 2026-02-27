@@ -1,0 +1,43 @@
+.footer {
+  margin-top: 40px;
+  padding: 24px 4%;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.brand {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.links a {
+  color: #e2e8f0;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  opacity: 0.6;
+}
+
+.muted {
+  opacity: 0.7;
+}

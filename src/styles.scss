@@ -1,1 +1,43 @@
-/* You can add global styles to this file, and also import other style files */
+/* styles.scss */
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #fafafa;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  width: 92%;
+  margin: auto;
+  max-width: 1400px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: rgba(0,0,0,0.08) 0px 4px 12px;
+  padding: 16px;
+}
+
+.btn {
+  padding: 10px 16px;
+  background: #ff3e6c;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-outline {
+  padding: 10px 16px;
+  border: 1px solid #ff3e6c;
+  background: transparent;
+  color: #ff3e6c;
+  border-radius: 6px;
+}
