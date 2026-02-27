@@ -1,0 +1,19 @@
+<div class="container">
+  <h2>Add Product</h2>
+
+  <div class="card form">
+    <input type="text" placeholder="Title" [(ngModel)]="product.title">
+    <textarea rows="3" placeholder="Description" [(ngModel)]="product.description"></textarea>
+    <input type="number" placeholder="Price" [(ngModel)]="product.price">
+    <input type="text" placeholder="Brand" [(ngModel)]="product.brand">
+    <input type="text" placeholder="Color" [(ngModel)]="product.color">
+    <input type="text" placeholder="Fabric" [(ngModel)]="product.fabric">
+    <input type="text" placeholder="Available Sizes (S,M,L)" [(ngModel)]="product.availableSizes">
+    <input type="number" placeholder="Quantity" [(ngModel)]="product.quantity">
+    <input type="text" placeholder="Image URLs (comma separated)" [(ngModel)]="imageUrlInput">
+
+    <button class="btn" (click)="save()" [disabled]="saving">
+      {{ saving ? 'Saving...' : 'Save Product' }}
+    </button>
+  </div>
+</div>

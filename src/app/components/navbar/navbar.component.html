@@ -3,32 +3,44 @@
     <a routerLink="/">Vedic Vastram</a>
   </div>
 
-  <div class="nav-center">
-    <input type="text" placeholder="Search kurtis..." [(ngModel)]="query"
+  <div class="nav-center" *ngIf="showSearch">
+    <input type="text" placeholder="Search....." [(ngModel)]="query"
            (input)="search.emit(query)">
   </div>
 
-  <div class="nav-right">
+  <button class="menu-toggle" type="button" (click)="toggleMenu()" aria-label="Toggle menu">
+    ☰
+  </button>
+
+  <div
+    class="nav-right"
+    [class.open]="isMenuOpen"
+    [style.display]="isMenuOpen ? 'flex' : null"
+    [style.flexDirection]="isMenuOpen ? 'column' : null">
     <ng-container *ngIf="role === 'BUYER'">
-      <a routerLink="/buyer/products">Products</a>
-      <a routerLink="/buyer/cart">🛒 Cart</a>
-      <a routerLink="/buyer/orders">Orders</a>
-      <a routerLink="/buyer/address">Address</a>
+      <a routerLink="/buyer/products" (click)="closeMenu()">Products</a>
+      <a routerLink="/buyer/cart" (click)="closeMenu()">🛒 Cart</a>
+      <a routerLink="/buyer/orders" (click)="closeMenu()">Orders</a>
+      <a routerLink="/buyer/address" (click)="closeMenu()">Address</a>
     </ng-container>
 
     <ng-container *ngIf="role === 'SELLER'">
-      <a routerLink="/seller/dashboard">Dashboard</a>
-      <a routerLink="/seller/add-product">Add Product</a>
-      <a routerLink="/seller/my-products">My Products</a>
+      <a routerLink="/seller/dashboard" (click)="closeMenu()">Dashboard</a>
+      <a routerLink="/seller/add-product" (click)="closeMenu()">Add Product</a>
+      <a routerLink="/seller/my-products" (click)="closeMenu()">My Products</a>
     </ng-container>
 
     <ng-container *ngIf="role === 'ADMIN'">
-      <a routerLink="/admin/dashboard">Dashboard</a>
-      <a routerLink="/admin/pending-sellers">Pending Sellers</a>
-      <a routerLink="/admin/pending-products">Pending Products</a>
+      <a routerLink="/admin/dashboard" (click)="closeMenu()">Dashboard</a>
+      <a routerLink="/admin/users" (click)="closeMenu()">Users</a>
+      <a routerLink="/admin/sellers" (click)="closeMenu()">Sellers</a>
+      <a routerLink="/admin/products" (click)="closeMenu()">Products</a>
+      <a routerLink="/admin/analytics" (click)="closeMenu()">Analytics</a>
+      <a routerLink="/admin/pending-sellers" (click)="closeMenu()">Pending Sellers</a>
+      <a routerLink="/admin/pending-products" (click)="closeMenu()">Pending Products</a>
     </ng-container>
 
     <button *ngIf="auth.isLoggedIn()" class="btn" (click)="logout()">Logout</button>
-    <a *ngIf="!auth.isLoggedIn()" routerLink="/login" class="btn">Login</a>
+    <a *ngIf="!auth.isLoggedIn()" routerLink="/login" class="btn" (click)="closeMenu()">Login</a>
   </div>
 </nav>

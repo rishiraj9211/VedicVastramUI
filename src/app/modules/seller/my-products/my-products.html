@@ -1,0 +1,13 @@
+<div class="container">
+  <h2>My Products</h2>
+
+  <div *ngIf="!products.length" class="empty">No products yet.</div>
+
+  <div class="grid" *ngIf="products.length">
+    <div class="card" *ngFor="let product of products">
+      <h4>{{ product.title }}</h4>
+      <p>₹ {{ product.price }}</p>
+      <p>Status: {{ product.status || 'Pending' }}</p>
+    </div>
+  </div>
+</div>

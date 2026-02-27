@@ -1,0 +1,27 @@
+.product-details {
+  display: flex;
+  gap: 40px;
+  margin-top: 40px;
+
+  .left {
+    width: 50%;
+  }
+
+  .right {
+    width: 40%;
+  }
+
+  .carousel-img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .sizes span {
+    background: #eee;
+    padding: 8px 14px;
+    margin-right: 8px;
+    border-radius: 6px;
+  }
+}

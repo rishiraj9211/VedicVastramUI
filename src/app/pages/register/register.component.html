@@ -1,0 +1,26 @@
+<div class="auth-page">
+  <div class="card auth-card">
+    <h2>Create Account</h2>
+    <p class="muted">Join as a buyer or seller.</p>
+
+    <input type="text" placeholder="Full name" [(ngModel)]="name">
+    <input type="email" placeholder="Email" [(ngModel)]="email">
+    <input type="password" placeholder="Password" [(ngModel)]="password">
+
+    <label class="role-label">Role</label>
+    <select [(ngModel)]="role">
+      <option value="BUYER">Buyer</option>
+      <option value="SELLER">Seller</option>
+    </select>
+
+    <button class="btn" (click)="register()" [disabled]="loading">
+      {{ loading ? 'Creating...' : 'Create Account' }}
+    </button>
+
+    <div class="error" *ngIf="error">{{ error }}</div>
+
+    <p class="muted small">
+      Already registered? <a routerLink="/login">Login</a>
+    </p>
+  </div>
+</div>

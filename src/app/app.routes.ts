@@ -21,6 +21,10 @@ import { MyProductsComponent } from './modules/seller/my-products/my-products.co
 import { AdminDashboardComponent } from './modules/admin/dashboard/admin-dashboard.component';
 import { PendingSellersComponent } from './modules/admin/pending-sellers/pending-sellers.component';
 import { PendingProductsComponent } from './modules/admin/pending-products/pending-products.component';
+import { AdminUsersComponent } from './modules/admin/users/admin-users.component';
+import { AdminSellersComponent } from './modules/admin/sellers/admin-sellers.component';
+import { AdminAnalyticsComponent } from './modules/admin/analytics/admin-analytics.component';
+import { AdminProductsComponent } from './modules/admin/products/admin-products.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -53,6 +57,10 @@ export const routes: Routes = [
     canActivate: [AuthGuard, AdminGuard],
     children: [
       { path: 'dashboard', component: AdminDashboardComponent },
+      { path: 'users', component: AdminUsersComponent },
+      { path: 'sellers', component: AdminSellersComponent },
+      { path: 'analytics', component: AdminAnalyticsComponent },
+      { path: 'products', component: AdminProductsComponent },
       { path: 'pending-sellers', component: PendingSellersComponent },
       { path: 'pending-products', component: PendingProductsComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }

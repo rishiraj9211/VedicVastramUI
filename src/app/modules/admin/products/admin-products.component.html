@@ -1,0 +1,62 @@
+<div class="admin-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h2>Products</h2>
+      <p class="subtitle">Edit catalog items across all sellers.</p>
+    </div>
+    <div class="pill">Total products: {{ products.length }}</div>
+  </header>
+
+  <div class="summary-grid">
+    <div class="card summary-card">
+      <p>Total Products</p>
+      <h3>{{ products.length }}</h3>
+    </div>
+    <div class="card summary-card summary-success">
+      <p>Active Listings</p>
+      <h3>{{ products.length }}</h3>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <div class="list card">
+      <div class="list-header">
+        <span>Product</span>
+        <span>Seller</span>
+        <span>Price</span>
+      </div>
+      <button
+        class="list-row"
+        *ngFor="let product of products"
+        (click)="selectProduct(product)">
+        <span class="primary">{{ product.title }}</span>
+        <span>{{ product.sellerName }}</span>
+        <span class="value">₹ {{ product.price }}</span>
+      </button>
+    </div>
+
+    <div class="card detail" *ngIf="draftProduct">
+      <div class="detail-header">
+        <h3>Edit Product</h3>
+        <button class="ghost" (click)="closeCard()">✕</button>
+      </div>
+
+      <label>Title</label>
+      <input type="text" [(ngModel)]="draftProduct.title">
+
+      <label>Brand</label>
+      <input type="text" [(ngModel)]="draftProduct.brand">
+
+      <label>Price</label>
+      <input type="number" [(ngModel)]="draftProduct.price">
+
+      <label>Quantity</label>
+      <input type="number" [(ngModel)]="draftProduct.quantity">
+
+      <div class="error" *ngIf="error">{{ error }}</div>
+
+      <button class="btn" (click)="saveProduct()">Save Changes</button>
+    </div>
+  </div>
+</div>

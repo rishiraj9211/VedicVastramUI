@@ -9,14 +9,78 @@
   box-shadow: rgba(0,0,0,0.1) 0px 2px 8px;
 }
 
+.menu-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 .nav-center input {
   width: 350px;
+  max-width: 100%;
   border-radius: 8px;
   padding: 10px 14px;
   border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
 .nav-right a, .nav-right button {
   margin-left: 20px;
   font-size: 15px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    order: 2;
+  }
+
+  .nav-center {
+    order: 3;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .nav-center input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .nav-right {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: rgba(15, 23, 42, 0.08) 0px 8px 20px;
+    order: 4;
+  }
+
+  .nav-right a,
+  .nav-right button {
+    margin-left: 0;
+  }
+
+  .nav-right.open {
+    display: flex !important;
+  }
 }

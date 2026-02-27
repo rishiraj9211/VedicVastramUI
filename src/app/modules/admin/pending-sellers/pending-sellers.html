@@ -1,0 +1,31 @@
+<div class="container pending-page">
+  <div class="page-header">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h2>Pending Seller Approvals</h2>
+      <p class="subtitle">Review seller applications awaiting approval.</p>
+    </div>
+    <div class="pill">Pending: {{ sellers.length }}</div>
+  </div>
+
+  <div *ngIf="!sellers.length" class="empty">No pending sellers.</div>
+
+  <div class="card" *ngFor="let seller of sellers">
+    <div class="title">{{ seller.name || seller.email }}</div>
+    <div>{{ seller.storeName || 'Store pending' }}</div>
+    <div class="action-row">
+      <button
+        class="btn"
+        (click)="approveSeller(seller.id)"
+        [disabled]="approvingId === seller.id || rejectingId === seller.id">
+        {{ approvingId === seller.id ? 'Approving...' : 'Approve' }}
+      </button>
+      <button
+        class="btn-outline"
+        (click)="rejectSeller(seller.id)"
+        [disabled]="approvingId === seller.id || rejectingId === seller.id">
+        {{ rejectingId === seller.id ? 'Rejecting...' : 'Reject' }}
+      </button>
+    </div>
+  </div>
+</div>

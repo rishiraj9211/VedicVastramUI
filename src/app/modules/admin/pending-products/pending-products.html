@@ -1,0 +1,24 @@
+<div class="container pending-page">
+  <div class="page-header">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h2>Pending Product Approvals</h2>
+      <p class="subtitle">Approve products before they go live.</p>
+    </div>
+    <div class="pill">Pending: {{ products.length }}</div>
+  </div>
+
+  <div *ngIf="!products.length" class="empty">No pending products.</div>
+
+  <div class="card" *ngFor="let product of products">
+    <div class="title">{{ product.title }}</div>
+    <div>Seller: {{ product.sellerName || product.sellerId }}</div>
+    <div>₹ {{ product.price }}</div>
+    <button
+      class="btn"
+      (click)="approveProduct(product.id)"
+      [disabled]="approvingId === product.id">
+      {{ approvingId === product.id ? 'Approving...' : 'Approve Product' }}
+    </button>
+  </div>
+</div>

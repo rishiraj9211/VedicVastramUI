@@ -1,0 +1,13 @@
+<div class="container">
+  <h2>Order History</h2>
+
+  <div *ngIf="!orders.length" class="empty">No orders yet.</div>
+
+  <div class="orders-list" *ngIf="orders.length">
+    <div class="card order-item" *ngFor="let order of orders">
+      <div class="title">Order #{{ order.id }}</div>
+      <div>Status: {{ order.status || 'Processing' }}</div>
+      <div>Total: ₹ {{ order.totalAmount }}</div>
+    </div>
+  </div>
+</div>

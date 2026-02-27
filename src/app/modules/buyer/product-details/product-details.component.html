@@ -1,0 +1,26 @@
+<div class="container product-details">
+
+  <div class="left">
+    <div class="carousel">
+      <img *ngIf="images.length" [src]="images[0]" class="carousel-img" alt="">
+      <div class="thumbs" *ngIf="images.length > 1">
+        <img *ngFor="let img of images" [src]="img" class="thumb" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class="right card">
+    <h2>{{product.title}}</h2>
+    <p class="brand">{{product.brand}}</p>
+
+    <p class="price">₹ {{product.price}}</p>
+
+    <h4>Available Sizes</h4>
+    <div class="sizes">
+      <span *ngFor="let s of product.availableSizes.split(',')">{{s}}</span>
+    </div>
+
+    <button class="btn" (click)="addToCart()">Add to Cart</button>
+    <button class="btn-outline" (click)="addWishlist(product)">❤️ Wishlist</button>
+  </div>
+</div>

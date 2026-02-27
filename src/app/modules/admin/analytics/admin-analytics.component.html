@@ -1,0 +1,53 @@
+<div class="admin-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h2>Sales Analytics</h2>
+      <p class="subtitle">Track overall revenue and seller performance.</p>
+    </div>
+    <div class="selector card">
+      <label>Seller</label>
+      <select [(ngModel)]="selectedSellerId">
+        <option *ngFor="let seller of sellerOptions" [value]="seller.id">
+          {{ seller.name }}
+        </option>
+      </select>
+    </div>
+  </header>
+
+  <div class="metrics">
+    <div class="card metric">
+      <p>Gross Sales</p>
+      <h3>₹ 8.4L</h3>
+    </div>
+    <div class="card metric">
+      <p>Orders</p>
+      <h3>2,418</h3>
+    </div>
+    <div class="card metric">
+      <p>Avg. Order Value</p>
+      <h3>₹ 3,480</h3>
+    </div>
+  </div>
+
+  <div class="charts">
+    <div class="card chart">
+      <h4>Weekly Sales Trend</h4>
+      <ngx-charts-line-chart
+        [results]="overallSales"
+        [xAxis]="true"
+        [yAxis]="true"
+        [autoScale]="true">
+      </ngx-charts-line-chart>
+    </div>
+
+    <div class="card chart">
+      <h4>Seller Contribution</h4>
+      <ngx-charts-bar-vertical
+        [results]="sellerSales"
+        [xAxis]="true"
+        [yAxis]="true">
+      </ngx-charts-bar-vertical>
+    </div>
+  </div>
+</div>

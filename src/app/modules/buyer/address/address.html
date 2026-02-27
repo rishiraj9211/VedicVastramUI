@@ -1,0 +1,24 @@
+<div class="container">
+  <h2>Saved Addresses</h2>
+
+  <div class="card address-form">
+    <input type="text" placeholder="Full name" [(ngModel)]="newAddress.fullName">
+    <input type="text" placeholder="Phone" [(ngModel)]="newAddress.phone">
+    <input type="text" placeholder="Address Line" [(ngModel)]="newAddress.addressLine">
+    <input type="text" placeholder="City" [(ngModel)]="newAddress.city">
+    <input type="text" placeholder="State" [(ngModel)]="newAddress.state">
+    <input type="text" placeholder="Pincode" [(ngModel)]="newAddress.pincode">
+    <button class="btn" (click)="addAddress()">Add Address</button>
+  </div>
+
+  <div class="address-list" *ngIf="addresses.length">
+    <div class="card address-item" *ngFor="let addr of addresses">
+      <div class="info">
+        <div class="title">{{ addr.fullName }}</div>
+        <div>{{ addr.addressLine }}</div>
+        <div>{{ addr.city }}, {{ addr.state }} {{ addr.pincode }}</div>
+      </div>
+      <button class="btn-outline" (click)="removeAddress(addr.id)">Remove</button>
+    </div>
+  </div>
+</div>

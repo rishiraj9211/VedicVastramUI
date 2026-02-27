@@ -1,0 +1,36 @@
+.auth-page {
+  display: flex;
+  justify-content: center;
+  padding: 48px 16px;
+}
+
+.auth-card {
+  width: min(460px, 100%);
+  display: grid;
+  gap: 12px;
+  padding: 24px;
+}
+
+.auth-card input,
+.auth-card select {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.role-label {
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.muted {
+  color: #64748b;
+}
+
+.small {
+  font-size: 0.9rem;
+}
+
+.error {
+  color: #b91c1c;
+}

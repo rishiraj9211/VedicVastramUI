@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="catalog-layout">
+
+  <!-- Search & Filters Section -->
+  <div class="filters card">
+    <h3>Filters</h3>
+
+    <label>Brand</label>
+    <select [(ngModel)]="filters.brand" (change)="applyFilters()">
+      <option value="">All</option>
+      <option *ngFor="let b of brands">{{b}}</option>
+    </select>
+
+    <label>Color</label>
+    <select [(ngModel)]="filters.color" (change)="applyFilters()">
+      <option value="">All</option>
+      <option *ngFor="let c of colors">{{c}}</option>
+    </select>
+
+    <label>Fabric</label>
+    <select [(ngModel)]="filters.fabric" (change)="applyFilters()">
+      <option value="">All</option>
+      <option *ngFor="let f of fabrics">{{f}}</option>
+    </select>
+
+    <label>Size</label>
+    <select [(ngModel)]="filters.size" (change)="applyFilters()">
+      <option value="">All</option>
+      <option *ngFor="let s of sizes">{{s}}</option>
+    </select>
+
+  </div>
+
+  <!-- Product Grid -->
+  <div class="grid-container">
+    <div class="product-card" *ngFor="let p of paginatedProducts">
+
+      <div class="img-wrapper">
+        <img [src]="p.imageUrls?.[0] || ''" alt="">
+        <button class="wishlist-btn" (click)="addWishlist(p)">❤️</button>
+      </div>
+
+      <div class="info">
+        <h4>{{p.title}}</h4>
+        <p class="brand">{{p.brand}}</p>
+        <p class="price">₹ {{p.price}}</p>
+        <button class="btn" [routerLink]="['/buyer/product', p.id]">
+          View Details
+        </button>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="page===1">Prev</button>
+    <span>Page {{page}}</span>
+    <button (click)="nextPage()" [disabled]="page===totalPages">Next</button>
+  </div>
+
+</div>

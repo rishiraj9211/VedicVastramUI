@@ -1,0 +1,18 @@
+<div class="container">
+  <h2>Checkout</h2>
+
+  <div class="card">
+    <label>Address ID</label>
+    <input type="number" [(ngModel)]="addressId" placeholder="Saved address id">
+
+    <label>Payment Type</label>
+    <select [(ngModel)]="paymentType">
+      <option value="COD">Cash on Delivery</option>
+      <option value="ONLINE">Online</option>
+    </select>
+
+    <button class="btn" (click)="placeOrder()" [disabled]="placingOrder || !addressId">
+      {{ placingOrder ? 'Placing order...' : 'Place Order' }}
+    </button>
+  </div>
+</div>

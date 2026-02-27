@@ -1,0 +1,74 @@
+<div class="admin-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h2>Sellers</h2>
+      <p class="subtitle">Manage seller profiles and activity status.</p>
+    </div>
+    <div class="pill">Active sellers: {{ sellers.filter(s => s.status === 'ACTIVE').length }}</div>
+  </header>
+
+  <div class="summary-grid">
+    <div class="card summary-card">
+      <p>Total Sellers</p>
+      <h3>{{ sellers.length }}</h3>
+    </div>
+    <div class="card summary-card summary-success">
+      <p>Active</p>
+      <h3>{{ sellers.filter(s => s.status === 'ACTIVE').length }}</h3>
+    </div>
+    <div class="card summary-card summary-muted">
+      <p>Inactive</p>
+      <h3>{{ sellers.filter(s => s.status === 'INACTIVE').length }}</h3>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <div class="list card">
+      <div class="list-header">
+        <span>Seller</span>
+        <span>Store</span>
+        <span>Status</span>
+      </div>
+      <button
+        class="list-row"
+        *ngFor="let seller of sellers"
+        (click)="selectSeller(seller)">
+        <span class="primary">{{ seller.name }}</span>
+        <span>{{ seller.storeName }}</span>
+        <span class="status" [class.active]="seller.status === 'ACTIVE'">
+          {{ seller.status }}
+        </span>
+      </button>
+    </div>
+
+    <div class="card detail" *ngIf="draftSeller">
+      <div class="detail-header">
+        <h3>Edit Seller</h3>
+        <button class="ghost" (click)="closeCard()">✕</button>
+      </div>
+
+      <label>Seller Name</label>
+      <input type="text" [(ngModel)]="draftSeller.name">
+
+      <label>Store Name</label>
+      <input type="text" [(ngModel)]="draftSeller.storeName">
+
+      <label>Email</label>
+      <input type="email" [(ngModel)]="draftSeller.email">
+
+      <label>Phone</label>
+      <input type="text" [(ngModel)]="draftSeller.phone">
+
+      <label>City</label>
+      <input type="text" [(ngModel)]="draftSeller.city">
+
+      <div class="status-row">
+        <span>Status: {{ draftSeller.status }}</span>
+        <button class="btn-outline" (click)="toggleStatus()">Toggle Status</button>
+      </div>
+
+      <button class="btn" (click)="saveSeller()">Save Changes</button>
+    </div>
+  </div>
+</div>

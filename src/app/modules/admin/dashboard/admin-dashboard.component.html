@@ -1,0 +1,79 @@
+<div class="container dashboard">
+  <h2>Admin Analytics</h2>
+
+  <div class="grid-analytics">
+    <a class="card metric metric-active" routerLink="/admin/users">
+      <h3>{{activeUsers}}</h3>
+      <p>Active Users</p>
+    </a>
+
+    <a class="card metric metric-total" routerLink="/admin/users">
+      <h3>{{totalUsers}}</h3>
+      <p>Total Users</p>
+    </a>
+
+    <a class="card metric metric-pending" routerLink="/admin/pending-products">
+      <h3>{{pendingProducts}}</h3>
+      <p>Pending Product Approvals</p>
+    </a>
+
+    <a class="card metric metric-orders" routerLink="/admin/analytics">
+      <h3>{{ordersToday}}</h3>
+      <p>Orders Today</p>
+    </a>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="card kpi" *ngFor="let kpi of kpis">
+      <p>{{ kpi.label }}</p>
+      <h3>{{ kpi.value }}</h3>
+      <span class="trend" [class.negative]="kpi.trend.startsWith('-')">
+        {{ kpi.trend }} this week
+      </span>
+    </div>
+  </div>
+
+  <div class="highlight-grid">
+    <div class="card list-card">
+      <div class="list-title">
+        <h4>Top Sellers</h4>
+        <a routerLink="/admin/sellers">View all</a>
+      </div>
+      <div class="list-row" *ngFor="let seller of topSellers">
+        <div class="primary">{{ seller.name }}</div>
+        <div class="meta">{{ seller.orders }} orders</div>
+        <div class="value">{{ seller.revenue }}</div>
+      </div>
+    </div>
+
+    <div class="card list-card">
+      <div class="list-title">
+        <h4>Top Products</h4>
+        <a routerLink="/admin/products">View all</a>
+      </div>
+      <div class="list-row" *ngFor="let product of topProducts">
+        <div class="primary">{{ product.name }}</div>
+        <div class="meta">{{ product.units }} units</div>
+        <div class="value">{{ product.revenue }}</div>
+      </div>
+    </div>
+
+    <div class="card list-card">
+      <div class="list-title">
+        <h4>Alerts</h4>
+        <a routerLink="/admin/pending-products">Open</a>
+      </div>
+      <div class="alert-row" *ngFor="let alert of alerts">
+        <div>
+          <div class="primary">{{ alert.type }}</div>
+          <div class="meta">{{ alert.message }}</div>
+        </div>
+        <button class="btn-outline">{{ alert.action }}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart card">
+    <ngx-charts-line-chart [results]="orderTrend"></ngx-charts-line-chart>
+  </div>
+</div>
