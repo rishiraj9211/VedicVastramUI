@@ -1,15 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-interface AdminProduct {
-  id: number;
-  title: string;
-  brand: string;
-  price: number;
-  quantity: number;
-  sellerName: string;
-}
+import { AdminDataService, AdminProduct } from '../../../services/admin-data.service';
 
 @Component({
   selector: 'app-admin-products',
@@ -18,37 +10,20 @@ interface AdminProduct {
   templateUrl: './admin-products.component.html',
   styleUrls: ['./admin-products.component.scss']
 })
-export class AdminProductsComponent {
-  products: AdminProduct[] = [
-    {
-      id: 3001,
-      title: 'Ajrakh Print Saree',
-      brand: 'Riwaaz',
-      price: 2899,
-      quantity: 18,
-      sellerName: 'Ritu Textiles'
-    },
-    {
-      id: 3002,
-      title: 'Chikankari Kurti',
-      brand: 'Indika',
-      price: 1499,
-      quantity: 8,
-      sellerName: 'Vedic Crafts'
-    },
-    {
-      id: 3003,
-      title: 'Handloom Dupatta',
-      brand: 'Vedic Looms',
-      price: 799,
-      quantity: 30,
-      sellerName: 'Riwaaz Studio'
-    }
-  ];
+export class AdminProductsComponent implements OnInit {
+  products: AdminProduct[] = [];
 
   selectedProduct: AdminProduct | null = null;
   draftProduct: AdminProduct | null = null;
   error = '';
+
+  constructor(private adminData: AdminDataService) {}
+
+  ngOnInit() {
+    this.adminData.getProducts().subscribe((products) => {
+      this.products = products;
+    });
+  }
 
   selectProduct(product: AdminProduct) {
     this.selectedProduct = product;

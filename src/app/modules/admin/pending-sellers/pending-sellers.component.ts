@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AdminDataService, AdminSeller } from '../../../services/admin-data.service';
 
 @Component({
   selector: 'app-pending-sellers',
@@ -14,20 +15,15 @@ export class PendingSellersComponent implements OnInit {
   private approveApi = 'http://localhost:8080/admin/sellers';
   private rejectApi = 'http://localhost:8080/admin/sellers';
 
-  sellers: any[] = [];
+  sellers: AdminSeller[] = [];
   approvingId: number | null = null;
   rejectingId: number | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private adminData: AdminDataService) {}
 
   ngOnInit() {
-    this.http.get(this.api).subscribe((res) => {
-      this.sellers = res as any[];
-      if (!this.sellers.length) {
-        this.sellers = this.mockSellers();
-      }
-    }, () => {
-      this.sellers = this.mockSellers();
+    this.adminData.getPendingSellers().subscribe((data) => {
+      this.sellers = data;
     });
   }
 
@@ -57,10 +53,4 @@ export class PendingSellersComponent implements OnInit {
     });
   }
 
-  private mockSellers() {
-    return [
-      { id: 901, name: 'Ritu Textiles', email: 'ritu@store.com', storeName: 'Ritu Textiles' },
-      { id: 902, name: 'Vedic Crafts', email: 'vedic@store.com', storeName: 'Vedic Crafts' }
-    ];
-  }
 }

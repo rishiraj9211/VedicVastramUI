@@ -12,7 +12,7 @@
 
   <div class="card" *ngFor="let product of products">
     <div class="title">{{ product.title }}</div>
-    <div>Seller: {{ product.sellerName || product.sellerId }}</div>
+    <div>Seller: {{ product.sellerName }}</div>
     <div>₹ {{ product.price }}</div>
     <button
       class="btn"

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AdminDataService, AdminProduct } from '../../../services/admin-data.service';
 
 @Component({
   selector: 'app-pending-products',
@@ -13,19 +14,14 @@ export class PendingProductsComponent implements OnInit {
   private api = 'http://localhost:8080/admin/products/pending';
   private approveApi = 'http://localhost:8080/admin/products';
 
-  products: any[] = [];
+  products: AdminProduct[] = [];
   approvingId: number | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private adminData: AdminDataService) {}
 
   ngOnInit() {
-    this.http.get(this.api).subscribe((res) => {
-      this.products = res as any[];
-      if (!this.products.length) {
-        this.products = this.mockProducts();
-      }
-    }, () => {
-      this.products = this.mockProducts();
+    this.adminData.getPendingProducts().subscribe((data) => {
+      this.products = data;
     });
   }
 
@@ -42,10 +38,4 @@ export class PendingProductsComponent implements OnInit {
     });
   }
 
-  private mockProducts() {
-    return [
-      { id: 3001, title: 'Ajrakh Print Saree', sellerId: 901, price: 2899 },
-      { id: 3002, title: 'Chikankari Kurti', sellerId: 902, price: 1499 }
-    ];
-  }
 }

@@ -13,10 +13,14 @@ import { CartComponent } from './modules/buyer/cart/cart.component';
 import { AddressComponent } from './modules/buyer/address/address.component';
 import { CheckoutComponent } from './modules/buyer/checkout/checkout.component';
 import { OrdersComponent } from './modules/buyer/orders/orders.component';
+import { BuyerProfileComponent } from './modules/buyer/profile/buyer-profile.component';
 
 import { SellerDashboardComponent } from './modules/seller/dashboard/seller-dashboard.component';
+import { SellerAnalyticsComponent } from './modules/seller/analytics/seller-analytics.component';
+import { SellerOrdersComponent } from './modules/seller/orders/seller-orders.component';
 import { AddProductComponent } from './modules/seller/add-product/add-product.component';
 import { MyProductsComponent } from './modules/seller/my-products/my-products.component';
+import { SellerProfileComponent } from './modules/seller/profile/seller-profile.component';
 
 import { AdminDashboardComponent } from './modules/admin/dashboard/admin-dashboard.component';
 import { PendingSellersComponent } from './modules/admin/pending-sellers/pending-sellers.component';
@@ -39,6 +43,7 @@ export const routes: Routes = [
       { path: 'address', component: AddressComponent },
       { path: 'checkout', component: CheckoutComponent },
       { path: 'orders', component: OrdersComponent },
+      { path: 'profile', component: BuyerProfileComponent },
       { path: '', redirectTo: 'products', pathMatch: 'full' }
     ]
   },
@@ -47,8 +52,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard, SellerGuard],
     children: [
       { path: 'dashboard', component: SellerDashboardComponent },
+      { path: 'analytics', component: SellerAnalyticsComponent },
+      { path: 'orders', component: SellerOrdersComponent },
       { path: 'add-product', component: AddProductComponent },
       { path: 'my-products', component: MyProductsComponent },
+      { path: 'profile', component: SellerProfileComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

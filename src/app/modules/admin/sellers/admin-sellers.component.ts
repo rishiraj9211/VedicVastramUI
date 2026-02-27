@@ -1,18 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-type SellerStatus = 'ACTIVE' | 'INACTIVE' | 'PENDING';
-
-interface AdminSeller {
-  id: number;
-  name: string;
-  storeName: string;
-  email: string;
-  phone: string;
-  status: SellerStatus;
-  city: string;
-}
+import { AdminDataService, AdminSeller } from '../../../services/admin-data.service';
 
 @Component({
   selector: 'app-admin-sellers',
@@ -21,39 +10,19 @@ interface AdminSeller {
   templateUrl: './admin-sellers.component.html',
   styleUrls: ['./admin-sellers.component.scss']
 })
-export class AdminSellersComponent {
-  sellers: AdminSeller[] = [
-    {
-      id: 201,
-      name: 'Ritu Textiles',
-      storeName: 'Ritu Textiles',
-      email: 'ritu@store.com',
-      phone: '+91 98765 21001',
-      status: 'ACTIVE',
-      city: 'Jaipur'
-    },
-    {
-      id: 202,
-      name: 'Vedic Crafts',
-      storeName: 'Vedic Crafts',
-      email: 'vedic@store.com',
-      phone: '+91 98765 21002',
-      status: 'INACTIVE',
-      city: 'Delhi'
-    },
-    {
-      id: 203,
-      name: 'Riwaaz',
-      storeName: 'Riwaaz Studio',
-      email: 'riwaaz@store.com',
-      phone: '+91 98765 21003',
-      status: 'ACTIVE',
-      city: 'Mumbai'
-    }
-  ];
+export class AdminSellersComponent implements OnInit {
+  sellers: AdminSeller[] = [];
 
   selectedSeller: AdminSeller | null = null;
   draftSeller: AdminSeller | null = null;
+
+  constructor(private adminData: AdminDataService) {}
+
+  ngOnInit() {
+    this.adminData.getSellers().subscribe((sellers) => {
+      this.sellers = sellers;
+    });
+  }
 
   selectSeller(seller: AdminSeller) {
     this.selectedSeller = seller;

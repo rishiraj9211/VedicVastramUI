@@ -1,13 +1,75 @@
-<div class="container">
-  <h2>My Products</h2>
+<div class="container seller-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Seller</p>
+      <h2>My Products</h2>
+      <p class="subtitle">Manage your live listings and stock.</p>
+    </div>
+    <div class="pill">Total: {{ products.length }}</div>
+  </header>
 
   <div *ngIf="!products.length" class="empty">No products yet.</div>
 
-  <div class="grid" *ngIf="products.length">
-    <div class="card" *ngFor="let product of products">
-      <h4>{{ product.title }}</h4>
-      <p>₹ {{ product.price }}</p>
-      <p>Status: {{ product.status || 'Pending' }}</p>
+  <div class="content-grid" *ngIf="products.length">
+    <div class="card list">
+      <div class="list-header">
+        <span>Product</span>
+        <span>Sizes</span>
+        <span>Quantity</span>
+        <span>Price</span>
+      </div>
+      <button class="list-row" *ngFor="let product of products" (click)="selectProduct(product)">
+        <span class="primary">
+          <ng-container *ngIf="product.imageUrls?.[0]; else emojiThumb">
+            <img class="thumb" [src]="product.imageUrls?.[0]" alt="">
+          </ng-container>
+          <ng-template #emojiThumb>
+            <span class="emoji-thumb">🧵</span>
+          </ng-template>
+          <span>{{ product.title }}</span>
+        </span>
+        <span>{{ product.availableSizes || '-' }}</span>
+        <span>{{ product.quantity === undefined ? 0 : product.quantity }}</span>
+        <span class="price">₹ {{ product.price }}</span>
+      </button>
+    </div>
+
+    <div class="card detail" *ngIf="draftProduct">
+      <div class="detail-header">
+        <h3>Edit Product</h3>
+        <button class="ghost" (click)="closeCard()">✕</button>
+      </div>
+
+      <label>Title</label>
+      <input type="text" [(ngModel)]="draftProduct.title">
+
+      <label>Description</label>
+      <textarea rows="3" [(ngModel)]="draftProduct.description"></textarea>
+
+      <label>Price</label>
+      <input type="number" [(ngModel)]="draftProduct.price">
+
+      <label>Quantity</label>
+      <input type="number" [(ngModel)]="draftProduct.quantity">
+
+      <label>Available Sizes</label>
+      <input type="text" [(ngModel)]="draftProduct.availableSizes" placeholder="S,M,L,XL">
+
+      <label>Brand</label>
+      <input type="text" [(ngModel)]="draftProduct.brand">
+
+      <label>Color</label>
+      <input type="text" [(ngModel)]="draftProduct.color">
+
+      <label>Fabric</label>
+      <input type="text" [(ngModel)]="draftProduct.fabric">
+
+      <label>Image URLs</label>
+      <textarea rows="2" [(ngModel)]="draftProduct.imageUrls"></textarea>
+
+      <div class="error" *ngIf="error">{{ error }}</div>
+
+      <button class="btn" (click)="saveProduct()">Save Changes</button>
     </div>
   </div>
 </div>
