@@ -1,16 +1,16 @@
-.buyer-page {
+.profile-page {
   --ink: #0f172a;
   --muted: #64748b;
   --stroke: #e2e8f0;
   color: var(--ink);
 }
 
-.buyer-page::before {
+.profile-page::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at top left, rgba(251, 191, 36, 0.12), transparent 45%),
-    radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.12), transparent 40%),
+  background: radial-gradient(circle at top left, rgba(250, 204, 21, 0.12), transparent 45%),
+    radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.1), transparent 40%),
     #f8fafc;
   z-index: -1;
 }
@@ -36,16 +36,37 @@
   margin: 6px 0 0;
 }
 
-.form {
+.profile-card {
   display: grid;
-  gap: 12px;
+  gap: 14px;
+  padding: 20px;
 }
 
-.form input,
-.form select {
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field input {
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid var(--stroke);
+  background: #ffffff;
+}
+
+.field input[readonly] {
+  background: #f8fafc;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.error {
+  color: #dc2626;
+  font-weight: 600;
 }
 
 @media (max-width: 720px) {

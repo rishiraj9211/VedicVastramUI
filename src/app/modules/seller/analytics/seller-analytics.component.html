@@ -1,0 +1,49 @@
+<div class="seller-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Seller</p>
+      <h2>Analytics</h2>
+      <p class="subtitle">Track sales performance and product momentum.</p>
+    </div>
+    <div class="pill">This week: ₹ 1.2L</div>
+  </header>
+
+  <div class="metrics">
+    <div class="card metric">
+      <p>Orders</p>
+      <h3>312</h3>
+      <span class="trend">+8.4%</span>
+    </div>
+    <div class="card metric">
+      <p>Revenue</p>
+      <h3>₹ 1.2L</h3>
+      <span class="trend">+12.9%</span>
+    </div>
+    <div class="card metric">
+      <p>Returns</p>
+      <h3>3.2%</h3>
+      <span class="trend negative">-0.6%</span>
+    </div>
+  </div>
+
+  <div class="charts">
+    <div class="card chart">
+      <h4>Weekly Sales</h4>
+      <ngx-charts-line-chart
+        [results]="salesTrend"
+        [xAxis]="true"
+        [yAxis]="true"
+        [autoScale]="true">
+      </ngx-charts-line-chart>
+    </div>
+
+    <div class="card chart">
+      <h4>Top Products</h4>
+      <ngx-charts-bar-vertical
+        [results]="topProducts"
+        [xAxis]="true"
+        [yAxis]="true">
+      </ngx-charts-bar-vertical>
+    </div>
+  </div>
+</div>

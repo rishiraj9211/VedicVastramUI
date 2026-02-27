@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from '../../../models/product.model';
 import { CartService } from '../../../services/cart.service';
@@ -9,7 +10,7 @@ import { WishlistService } from '../../../services/wishlist.service';
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.scss']
 })
@@ -29,6 +30,8 @@ export class ProductDetailsComponent implements OnInit {
   };
 
   images: string[] = [];
+  selectedSize = '';
+  quantity = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,16 +46,28 @@ export class ProductDetailsComponent implements OnInit {
       this.productService.getById(id).subscribe((res) => {
         this.product = res as Product;
         this.images = (res as any).imageUrls ?? [];
+        const sizes = this.getSizes();
+        if (sizes.length) {
+          this.selectedSize = sizes[0];
+        }
       });
     }
   }
 
   addToCart() {
     if (!this.product?.id) return;
-    this.cartService.add({ productId: this.product.id, quantity: 1 }).subscribe();
+    const qty = Math.max(1, this.quantity || 1);
+    this.cartService.add({ productId: this.product.id, quantity: qty }).subscribe();
   }
 
   addWishlist(product: Product) {
     this.wishlist.toggle(product);
+  }
+
+  getSizes() {
+    return (this.product.availableSizes || '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0);
   }
 }

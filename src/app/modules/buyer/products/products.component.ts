@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { Product } from '../../../models/product.model';
+import { CartService } from '../../../services/cart.service';
+import { CartStoreService } from '../../../services/cart-store.service';
 import { ProductService } from '../../../services/product.service';
 import { WishlistService } from '../../../services/wishlist.service';
 
@@ -20,10 +23,13 @@ interface ProductFilters {
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
   allProducts: Product[] = [];
   products: Product[] = [];
   paginatedProducts: Product[] = [];
+  selectedSizes: Record<number, string> = {};
+  selectedQty: Record<number, number> = {};
+  private destroyed$ = new Subject<void>();
 
   page = 1;
   pageSize = 8;
@@ -42,12 +48,32 @@ export class ProductsComponent implements OnInit {
   sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'Free'];
 
   constructor(
+    private cartService: CartService,
+    private cartStore: CartStoreService,
     private productService: ProductService,
-    private wishlist: WishlistService
+    private wishlist: WishlistService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.loadProducts();
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        takeUntil(this.destroyed$)
+      )
+      .subscribe((event) => {
+        const nav = event as NavigationEnd;
+        if (nav.urlAfterRedirects.startsWith('/buyer/products')) {
+          this.loadProducts();
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   applyFilters() {
@@ -82,6 +108,66 @@ export class ProductsComponent implements OnInit {
     this.wishlist.toggle(product);
   }
 
+  addToCart(product: Product) {
+    const sizes = this.getSizes(product);
+    if (sizes.length > 0 && !this.selectedSizes[product.id]) {
+      this.selectedSizes[product.id] = sizes[0];
+    }
+    const selectedSize = this.selectedSizes[product.id] || '';
+    const qty = Math.max(1, this.selectedQty[product.id] ?? 1);
+    this.cartService.add({ productId: product.id, quantity: qty }).subscribe({
+      next: () => {
+        this.cartStore.add({
+          productId: product.id,
+          title: product.title,
+          price: product.price,
+          imageUrl: product.imageUrls?.[0],
+          size: selectedSize,
+          availableSizes: product.availableSizes,
+          quantity: qty
+        });
+      },
+      error: () => {
+        this.cartStore.add({
+          productId: product.id,
+          title: product.title,
+          price: product.price,
+          imageUrl: product.imageUrls?.[0],
+          size: selectedSize,
+          availableSizes: product.availableSizes,
+          quantity: qty
+        });
+      }
+    });
+  }
+
+  isWishlisted(product: Product) {
+    return this.wishlist.has(product.id);
+  }
+
+  getSizes(product: Product) {
+    return (product.availableSizes || '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0);
+  }
+
+  getSelectedSize(product: Product) {
+    return this.selectedSizes[product.id] || this.getSizes(product)[0] || '';
+  }
+
+  setSelectedSize(product: Product, size: string) {
+    this.selectedSizes[product.id] = size;
+  }
+
+  getQty(product: Product) {
+    return this.selectedQty[product.id] ?? 1;
+  }
+
+  setQty(product: Product, qty: number) {
+    this.selectedQty[product.id] = Math.max(1, qty || 1);
+  }
+
   nextPage() {
     if (this.page < this.totalPages) {
       this.page += 1;
@@ -98,16 +184,20 @@ export class ProductsComponent implements OnInit {
 
   private loadProducts() {
     this.productService.getAll().subscribe((res) => {
-      this.allProducts = res as Product[];
+      this.allProducts = this.normalizeProducts(res);
       if (!this.allProducts.length) {
         this.allProducts = this.mockProducts();
       }
       this.products = [...this.allProducts];
+      this.page = 1;
       this.updatePagination();
+      this.cdr.detectChanges();
     }, () => {
       this.allProducts = this.mockProducts();
       this.products = [...this.allProducts];
+      this.page = 1;
       this.updatePagination();
+      this.cdr.detectChanges();
     });
   }
 
@@ -116,6 +206,10 @@ export class ProductsComponent implements OnInit {
     const end = start + this.pageSize;
     this.paginatedProducts = this.products.slice(start, end);
     this.totalPages = Math.max(1, Math.ceil(this.products.length / this.pageSize));
+    if (this.page > this.totalPages) {
+      this.page = 1;
+      this.paginatedProducts = this.products.slice(0, this.pageSize);
+    }
   }
 
   private mockProducts(): Product[] {
@@ -163,5 +257,19 @@ export class ProductsComponent implements OnInit {
         imageUrls: ['https://via.placeholder.com/400x520?text=Lehenga']
       }
     ];
+  }
+
+  private normalizeProducts(res: unknown): Product[] {
+    if (Array.isArray(res)) {
+      return res as Product[];
+    }
+    if (res && typeof res === 'object') {
+      const data = res as { content?: unknown; data?: unknown; items?: unknown; products?: unknown };
+      const candidates = data.content ?? data.data ?? data.items ?? data.products;
+      if (Array.isArray(candidates)) {
+        return candidates as Product[];
+      }
+    }
+    return [];
   }
 }

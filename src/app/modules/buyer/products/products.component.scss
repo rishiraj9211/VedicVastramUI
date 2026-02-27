@@ -28,6 +28,79 @@
   gap: 22px;
 }
 
+.product-card {
+  display: grid;
+  gap: 10px;
+}
+
+.info h4 {
+  margin: 8px 0 4px;
+}
+
+.brand {
+  color: #64748b;
+}
+
+.pagination {
+  margin-top: 24px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.info {
+  display: grid;
+  gap: 6px;
+}
+
+.info .btn-outline {
+  border: 1px solid #0f172a;
+  color: #0f172a;
+  background: #ffffff;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.info .btn-outline:hover {
+  background: #f1f5f9;
+}
+
+.cta-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cta-row .btn,
+.cta-row .btn-outline {
+  flex: 1;
+  min-width: 0;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  align-items: end;
+}
+
+.meta-row label {
+  display: grid;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.meta-row select,
+.meta-row input {
+  width: 100%;
+  min-width: 0;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-sizing: border-box;
+}
+
 @media (max-width: 900px) {
   .catalog-layout {
     grid-template-columns: 1fr;
@@ -48,6 +121,13 @@
   }
 }
 
+@media (max-width: 720px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 .product-card {
   background: #fff;
   border-radius: 12px;
@@ -62,11 +142,11 @@
 
   .img-wrapper {
     position: relative;
-    height: 260px;
+    height: 180px;
 
     img {
       width: 100%;
-      height: 260px;
+      height: 180px;
       object-fit: cover;
       border-radius: 12px;
     }
@@ -89,4 +169,48 @@
     font-size: 18px;
     font-weight: bold;
   }
+}
+.buyer-page {
+  --ink: #0f172a;
+  --muted: #64748b;
+  color: var(--ink);
+}
+
+.buyer-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(251, 191, 36, 0.12), transparent 45%),
+    radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.12), transparent 40%),
+    #f8fafc;
+  z-index: -1;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0 24px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin: 6px 0 0;
+}
+
+.pill {
+  background: linear-gradient(135deg, #fef3c7, #dbeafe);
+  color: #1e3a8a;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 600;
 }

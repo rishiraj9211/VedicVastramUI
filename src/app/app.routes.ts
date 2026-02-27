@@ -14,6 +14,7 @@ import { AddressComponent } from './modules/buyer/address/address.component';
 import { CheckoutComponent } from './modules/buyer/checkout/checkout.component';
 import { OrdersComponent } from './modules/buyer/orders/orders.component';
 import { BuyerProfileComponent } from './modules/buyer/profile/buyer-profile.component';
+import { BuyerWishlistComponent } from './modules/buyer/wishlist/buyer-wishlist.component';
 
 import { SellerDashboardComponent } from './modules/seller/dashboard/seller-dashboard.component';
 import { SellerAnalyticsComponent } from './modules/seller/analytics/seller-analytics.component';
@@ -44,6 +45,7 @@ export const routes: Routes = [
       { path: 'checkout', component: CheckoutComponent },
       { path: 'orders', component: OrdersComponent },
       { path: 'profile', component: BuyerProfileComponent },
+      { path: 'wishlist', component: BuyerWishlistComponent },
       { path: '', redirectTo: 'products', pathMatch: 'full' }
     ]
   },

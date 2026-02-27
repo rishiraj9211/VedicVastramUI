@@ -1,0 +1,48 @@
+<div class="profile-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Buyer</p>
+      <h2>Profile</h2>
+      <p class="subtitle">View and update your account details.</p>
+    </div>
+    <button class="btn" *ngIf="!editing" (click)="startEdit()">Edit Profile</button>
+  </header>
+
+  <div class="card profile-card">
+    <div class="field">
+      <label>Name</label>
+      <input type="text" [readonly]="!editing" [(ngModel)]="draft.name">
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" [readonly]="!editing" [(ngModel)]="draft.email">
+    </div>
+    <div class="field">
+      <label>Phone</label>
+      <input type="text" [readonly]="!editing" [(ngModel)]="draft.phone">
+    </div>
+    <div class="field">
+      <label>Address</label>
+      <input type="text" [readonly]="!editing" [(ngModel)]="draft.addressLine">
+    </div>
+    <div class="field">
+      <label>City</label>
+      <input type="text" [readonly]="!editing" [(ngModel)]="draft.city">
+    </div>
+    <div class="field">
+      <label>State</label>
+      <input type="text" [readonly]="!editing" [(ngModel)]="draft.state">
+    </div>
+    <div class="field">
+      <label>Pincode</label>
+      <input type="text" [readonly]="!editing" [(ngModel)]="draft.pincode">
+    </div>
+
+    <div class="error" *ngIf="error">{{ error }}</div>
+
+    <div class="actions" *ngIf="editing">
+      <button class="btn" (click)="save()">Save Changes</button>
+      <button class="btn-outline" (click)="cancelEdit()">Cancel</button>
+    </div>
+  </div>
+</div>

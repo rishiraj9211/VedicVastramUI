@@ -1,0 +1,29 @@
+<div class="buyer-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Buyer</p>
+      <h2>Wishlist</h2>
+      <p class="subtitle">Saved items for later.</p>
+    </div>
+    <div class="pill">Items: {{ items.length }}</div>
+  </header>
+
+  <div class="empty" *ngIf="!items.length">No items in wishlist yet.</div>
+
+  <div class="content" *ngIf="items.length">
+    <div class="grid">
+      <div class="card item" *ngFor="let item of items">
+        <img [src]="item.imageUrls?.[0] || 'https://via.placeholder.com/260x320?text=Item'" alt="">
+        <div class="info">
+          <h4>{{ item.title }}</h4>
+          <p>{{ item.brand }}</p>
+          <div class="row">
+            <span class="price">₹ {{ item.price }}</span>
+            <button class="btn-outline" (click)="remove(item)">Remove</button>
+          </div>
+          <a class="link" [routerLink]="['/buyer/product', item.id]">View Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

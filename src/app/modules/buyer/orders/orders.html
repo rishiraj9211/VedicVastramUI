@@ -1,5 +1,12 @@
-<div class="container">
-  <h2>Order History</h2>
+<div class="buyer-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Buyer</p>
+      <h2>Order History</h2>
+      <p class="subtitle">Track your latest purchases.</p>
+    </div>
+    <div class="pill">Orders: {{ orders.length }}</div>
+  </header>
 
   <div *ngIf="!orders.length" class="empty">No orders yet.</div>
 

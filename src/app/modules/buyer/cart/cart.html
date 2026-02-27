@@ -1,15 +1,58 @@
-<div class="container">
-  <h2>Your Cart</h2>
+<div class="buyer-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Buyer</p>
+      <h2>Your Cart</h2>
+      <p class="subtitle">Review items before checkout.</p>
+    </div>
+    <div class="pill">Items: {{ items.length }}</div>
+  </header>
 
   <div *ngIf="!items.length" class="empty">Your cart is empty.</div>
 
   <div class="cart-list" *ngIf="items.length">
-    <div class="cart-item" *ngFor="let item of items">
-      <div class="info">
-        <div class="title">Product #{{ item.productId }}</div>
-        <div class="price">Qty: {{ item.quantity }}</div>
+    <div class="cart-grid">
+      <div class="card item" *ngFor="let item of items">
+        <img [src]="item.imageUrl || 'https://via.placeholder.com/260x320?text=Item'" alt="">
+        <div class="info">
+          <h4>{{ item.title || ('Product #' + item.productId) }}</h4>
+          <div class="meta">
+            <label *ngIf="getSizes(item).length">
+              Size
+              <select [ngModel]="item.size" (ngModelChange)="updateSize(item, $event)">
+                <option *ngFor="let s of getSizes(item)" [value]="s">{{ s }}</option>
+              </select>
+            </label>
+            <label>
+              Qty
+              <input type="number" min="1" [ngModel]="item.quantity" (ngModelChange)="updateQty(item, $event)">
+            </label>
+          </div>
+          <button class="btn-outline" (click)="removeItem(item.id)">Remove</button>
+        </div>
       </div>
-      <button class="btn-outline" (click)="removeItem(item.id)">Remove</button>
+    </div>
+
+    <div class="card checkout-card">
+      <h3>Checkout</h3>
+      <label>Delivery Address</label>
+      <select [(ngModel)]="selectedAddressId" [disabled]="!addresses.length">
+        <option *ngFor="let address of addresses" [value]="address.id">
+          {{ address.fullName }} — {{ address.addressLine }}, {{ address.city }}
+        </option>
+      </select>
+      <div class="empty" *ngIf="!addresses.length">No address found.</div>
+      <a class="btn-outline" *ngIf="!addresses.length" routerLink="/buyer/address">
+        Add New Address
+      </a>
+      <label>Payment</label>
+      <select [(ngModel)]="paymentType">
+        <option value="COD">Cash on Delivery</option>
+        <option value="ONLINE">Online</option>
+      </select>
+      <button class="btn" [disabled]="!selectedAddressId" (click)="checkout()">
+        Place Order
+      </button>
     </div>
   </div>
 </div>

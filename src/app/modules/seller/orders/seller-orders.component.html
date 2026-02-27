@@ -1,0 +1,54 @@
+<div class="seller-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Seller</p>
+      <h2>Orders</h2>
+      <p class="subtitle">Track customer orders and fulfillment.</p>
+    </div>
+    <div class="pill">Open orders: {{ orders.length }}</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab" [class.active]="activeTab === 'PENDING'" (click)="setTab('PENDING')">
+      Pending
+    </button>
+    <button class="tab" [class.active]="activeTab === 'SHIPPED'" (click)="setTab('SHIPPED')">
+      Shipped
+    </button>
+    <button class="tab" [class.active]="activeTab === 'COMPLETED'" (click)="setTab('COMPLETED')">
+      Completed
+    </button>
+  </div>
+
+  <div class="card list">
+    <div class="list-header">
+      <span>Order</span>
+      <span>Product</span>
+      <span>Status</span>
+      <span>Amount</span>
+    </div>
+    <div class="list-row" *ngFor="let order of filteredOrders">
+      <span class="primary">#{{ order.id }}</span>
+      <span>{{ order.product }}</span>
+      <span class="status" [class.shipped]="order.status === 'SHIPPED'"
+        [class.delivered]="order.status === 'DELIVERED'">
+        {{ order.status }}
+      </span>
+      <span class="value">₹ {{ order.amount }}</span>
+      <div class="actions" *ngIf="activeTab !== 'COMPLETED'">
+        <button
+          class="btn-outline"
+          *ngIf="order.status === 'PLACED'"
+          (click)="updateStatus(order, 'SHIPPED')">
+          Mark Shipped
+        </button>
+        <button
+          class="btn"
+          *ngIf="order.status === 'SHIPPED'"
+          (click)="updateStatus(order, 'DELIVERED')">
+          Mark Delivered
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -9,6 +9,10 @@ export class WishlistService {
     return this.read();
   }
 
+  has(productId: number) {
+    return this.read().some((item) => item.id === productId);
+  }
+
   toggle(product: Product) {
     const items = this.read();
     const index = items.findIndex((item) => item.id === product.id);

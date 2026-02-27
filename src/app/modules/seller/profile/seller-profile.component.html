@@ -1,0 +1,52 @@
+<div class="profile-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Seller</p>
+      <h2>Profile</h2>
+      <p class="subtitle">View your store details.</p>
+    </div>
+  </header>
+
+  <div class="card profile-card">
+    <div class="field">
+      <label>Store Name</label>
+      <input type="text" [readonly]="true" [value]="profile.storeName">
+    </div>
+    <div class="field">
+      <label>Owner</label>
+      <input type="text" [readonly]="true" [value]="profile.name">
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" [readonly]="true" [value]="profile.email">
+    </div>
+    <div class="field">
+      <label>Phone</label>
+      <input type="text" [readonly]="true" [value]="profile.phone">
+    </div>
+    <div class="field">
+      <label>Address</label>
+      <input type="text" [readonly]="true" [value]="profile.addressLine">
+    </div>
+    <div class="field">
+      <label>City</label>
+      <input type="text" [readonly]="true" [value]="profile.city">
+    </div>
+    <div class="field">
+      <label>Status</label>
+      <input type="text" [readonly]="true" [value]="profile.status">
+    </div>
+    <div class="field">
+      <label>State</label>
+      <input type="text" [readonly]="true" [value]="profile.state">
+    </div>
+    <div class="field">
+      <label>Pincode</label>
+      <input type="text" [readonly]="true" [value]="profile.pincode">
+    </div>
+    <div class="field">
+      <label>GST</label>
+      <input type="text" [readonly]="true" [value]="profile.gst">
+    </div>
+  </div>
+</div>

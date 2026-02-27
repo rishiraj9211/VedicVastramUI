@@ -77,6 +77,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       '/admin/pending-sellers',
       '/admin/pending-products',
       '/buyer/products',
+      '/buyer/wishlist',
       '/seller/my-products'
     ];
     this.showSearch = searchableRoutes.some((route) => url.startsWith(route));
