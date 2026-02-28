@@ -44,8 +44,9 @@ export class ProductDetailsComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
       this.productService.getById(id).subscribe((res) => {
-        this.product = res as Product;
-        this.images = (res as any).imageUrls ?? [];
+        if (!res) return;
+        this.product = res;
+        this.images = res.imageUrls ?? [];
         const sizes = this.getSizes();
         if (sizes.length) {
           this.selectedSize = sizes[0];

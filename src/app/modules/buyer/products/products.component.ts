@@ -31,7 +31,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   selectedSizes: Record<number, string> = {};
   selectedQty: Record<number, number> = {};
   private destroyed$ = new Subject<void>();
-  private defaultImageUrl = 'https://share.google/wUvL0Wa2N3HuKNZdO';
   addingFeedback: Record<number, boolean> = {};
 
   page = 1;
@@ -190,17 +189,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   private loadProducts() {
     this.productService.getAll().subscribe((res) => {
-      this.allProducts = this.applyDefaultImage(this.normalizeProducts(res));
-      if (!this.allProducts.length) {
-        this.allProducts = this.mockProducts();
-      }
+      this.allProducts = res;
       this.products = [...this.allProducts];
       this.page = 1;
       this.updatePagination();
       this.cdr.detectChanges();
     }, () => {
-      this.allProducts = this.mockProducts();
-      this.products = [...this.allProducts];
+      this.allProducts = [];
+      this.products = [];
       this.page = 1;
       this.updatePagination();
       this.cdr.detectChanges();
@@ -216,74 +212,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
       this.page = 1;
       this.paginatedProducts = this.products.slice(0, this.pageSize);
     }
-  }
-
-  private mockProducts(): Product[] {
-    return [
-      {
-        id: 1,
-        title: 'Banarasi Silk Saree',
-        description: 'Classic woven silk with zari work.',
-        price: 349,
-        availableSizes: 'Free',
-        color: 'Red',
-        brand: 'Vedic Looms',
-        fabric: 'Silk',
-        quantity: 10,
-        sellerId: 101,
-        status: 'APPROVED',
-        imageUrls: ['/assets/images/products/vedic-looms.png']
-      },
-      {
-        id: 2,
-        title: 'Cotton Kurta Set',
-        description: 'Breathable cotton kurta with palazzo.',
-        price: 179,
-        availableSizes: 'S,M,L,XL',
-        color: 'Blue',
-        brand: 'LV',
-        fabric: 'Cotton',
-        quantity: 25,
-        sellerId: 102,
-        status: 'APPROVED',
-        imageUrls: ['/assets/images/products/aarohi.png']
-      },
-      {
-        id: 3,
-        title: 'Festive Lehenga',
-        description: 'Embroidered lehenga for celebrations.',
-        price: 599,
-        availableSizes: 'M,L,XL',
-        color: 'Maroon',
-        brand: 'Riwaaz',
-        fabric: 'Georgette',
-        quantity: 5,
-        sellerId: 103,
-        status: 'APPROVED',
-        imageUrls: ['/assets/images/products/riwaaz.png']
-      }
-    ];
-  }
-
-  private normalizeProducts(res: unknown): Product[] {
-    if (Array.isArray(res)) {
-      return res as Product[];
-    }
-    if (res && typeof res === 'object') {
-      const data = res as { content?: unknown; data?: unknown; items?: unknown; products?: unknown };
-      const candidates = data.content ?? data.data ?? data.items ?? data.products;
-      if (Array.isArray(candidates)) {
-        return candidates as Product[];
-      }
-    }
-    return [];
-  }
-
-  private applyDefaultImage(products: Product[]): Product[] {
-    return products.map((product) => ({
-      ...product,
-      imageUrls: [this.defaultImageUrl]
-    }));
   }
 
   private triggerAddFeedback(productId: number) {
