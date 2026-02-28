@@ -1,0 +1,10 @@
+<div class="notification-stack" *ngIf="notifications.notifications$ | async as list">
+  <div
+    class="notification"
+    *ngFor="let item of list"
+    [class.success]="item.type === 'success'"
+    [class.error]="item.type === 'error'"
+    [class.warning]="item.type === 'warning'">
+    {{ item.message }}
+  </div>
+</div>

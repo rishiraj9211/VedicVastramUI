@@ -48,9 +48,6 @@ export class CartComponent implements OnInit {
 
     this.addressService.list().subscribe((res) => {
       this.addresses = this.normalizeAddresses(res);
-      if (this.addresses.length && !this.selectedAddressId) {
-        this.selectedAddressId = this.addresses[0].id ?? null;
-      }
     });
   }
 
@@ -97,8 +94,25 @@ export class CartComponent implements OnInit {
       return res.map(normalize) as Address[];
     }
     if (res && typeof res === 'object') {
-      const data = res as { data?: unknown; items?: unknown; content?: unknown };
-      const candidates = data.data ?? data.items ?? data.content;
+      const data = res as {
+        data?: unknown;
+        items?: unknown;
+        content?: unknown;
+        addresses?: unknown;
+        addressList?: unknown;
+        addressDTOList?: unknown;
+        addressDtoList?: unknown;
+        addressDtos?: unknown;
+      };
+      const candidates =
+        data.data ??
+        data.items ??
+        data.content ??
+        data.addresses ??
+        data.addressList ??
+        data.addressDTOList ??
+        data.addressDtoList ??
+        data.addressDtos;
       if (Array.isArray(candidates)) {
         return candidates.map(normalize) as Address[];
       }

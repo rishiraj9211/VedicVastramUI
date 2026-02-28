@@ -8,6 +8,7 @@ import { CartService } from '../../../services/cart.service';
 import { CartStoreService } from '../../../services/cart-store.service';
 import { ProductService } from '../../../services/product.service';
 import { WishlistService } from '../../../services/wishlist.service';
+import { NotificationService } from '../../../services/notification.service';
 
 interface ProductFilters {
   brand: string;
@@ -30,6 +31,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
   selectedSizes: Record<number, string> = {};
   selectedQty: Record<number, number> = {};
   private destroyed$ = new Subject<void>();
+  private defaultImageUrl = 'https://share.google/wUvL0Wa2N3HuKNZdO';
+  addingFeedback: Record<number, boolean> = {};
 
   page = 1;
   pageSize = 8;
@@ -53,7 +56,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     private productService: ProductService,
     private wishlist: WishlistService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private notifications: NotificationService
   ) {}
 
   ngOnInit() {
@@ -126,6 +130,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
           availableSizes: product.availableSizes,
           quantity: qty
         });
+        this.triggerAddFeedback(product.id);
       },
       error: () => {
         this.cartStore.add({
@@ -137,6 +142,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
           availableSizes: product.availableSizes,
           quantity: qty
         });
+        this.triggerAddFeedback(product.id);
       }
     });
   }
@@ -184,7 +190,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   private loadProducts() {
     this.productService.getAll().subscribe((res) => {
-      this.allProducts = this.normalizeProducts(res);
+      this.allProducts = this.applyDefaultImage(this.normalizeProducts(res));
       if (!this.allProducts.length) {
         this.allProducts = this.mockProducts();
       }
@@ -226,7 +232,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         quantity: 10,
         sellerId: 101,
         status: 'APPROVED',
-        imageUrls: ['https://via.placeholder.com/400x520?text=Silk+Saree']
+        imageUrls: ['/assets/images/products/vedic-looms.png']
       },
       {
         id: 2,
@@ -240,7 +246,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         quantity: 25,
         sellerId: 102,
         status: 'APPROVED',
-        imageUrls: ['https://via.placeholder.com/400x520?text=Kurta+Set']
+        imageUrls: ['/assets/images/products/aarohi.png']
       },
       {
         id: 3,
@@ -254,7 +260,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         quantity: 5,
         sellerId: 103,
         status: 'APPROVED',
-        imageUrls: ['https://via.placeholder.com/400x520?text=Lehenga']
+        imageUrls: ['/assets/images/products/riwaaz.png']
       }
     ];
   }
@@ -271,5 +277,21 @@ export class ProductsComponent implements OnInit, OnDestroy {
       }
     }
     return [];
+  }
+
+  private applyDefaultImage(products: Product[]): Product[] {
+    return products.map((product) => ({
+      ...product,
+      imageUrls: [this.defaultImageUrl]
+    }));
+  }
+
+  private triggerAddFeedback(productId: number) {
+    this.addingFeedback[productId] = true;
+    window.setTimeout(() => {
+      this.addingFeedback[productId] = false;
+    }, 500);
+
+    this.notifications.show('Added to cart', { type: 'success', duration: 2000 });
   }
 }

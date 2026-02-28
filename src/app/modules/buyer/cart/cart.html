@@ -16,6 +16,9 @@
         <img [src]="item.imageUrl || 'https://via.placeholder.com/260x320?text=Item'" alt="">
         <div class="info">
           <h4>{{ item.title || ('Product #' + item.productId) }}</h4>
+          <div class="size-label">
+            Selected size: {{ item.size || 'Not selected' }}
+          </div>
           <div class="meta">
             <label *ngIf="getSizes(item).length">
               Size
@@ -37,6 +40,7 @@
       <h3>Checkout</h3>
       <label>Delivery Address</label>
       <select [(ngModel)]="selectedAddressId" [disabled]="!addresses.length">
+        <option [ngValue]="null" disabled>Select an address</option>
         <option *ngFor="let address of addresses" [value]="address.id">
           {{ address.fullName }} — {{ address.addressLine }}, {{ address.city }}
         </option>

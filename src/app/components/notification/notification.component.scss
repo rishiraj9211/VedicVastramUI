@@ -1,0 +1,44 @@
+.notification-stack {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.notification {
+  min-width: 200px;
+  max-width: 320px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #0f172a;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.18);
+  animation: toast-in 0.2s ease-out;
+}
+
+.notification.success {
+  background: #16a34a;
+}
+
+.notification.error {
+  background: #dc2626;
+}
+
+.notification.warning {
+  background: #f59e0b;
+  color: #1f2937;
+}
+
+@keyframes toast-in {
+  0% {
+    transform: translateY(-6px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

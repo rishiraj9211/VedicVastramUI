@@ -122,8 +122,14 @@ export class AddressComponent implements OnInit {
   }
 
   private loadAddresses() {
-    this.addressService.list().subscribe((res) => {
-      this.addresses = this.normalizeAddresses(res);
+    this.addressService.list().subscribe({
+      next: (res) => {
+        this.addresses = this.normalizeAddresses(res);
+      },
+      error: () => {
+        this.addresses = [];
+        this.error = 'Unable to load addresses right now.';
+      }
     });
   }
 
@@ -142,8 +148,25 @@ export class AddressComponent implements OnInit {
       return res.map(normalize) as Address[];
     }
     if (res && typeof res === 'object') {
-      const data = res as { data?: unknown; items?: unknown; content?: unknown };
-      const candidates = data.data ?? data.items ?? data.content;
+      const data = res as {
+        data?: unknown;
+        items?: unknown;
+        content?: unknown;
+        addresses?: unknown;
+        addressList?: unknown;
+        addressDTOList?: unknown;
+        addressDtoList?: unknown;
+        addressDtos?: unknown;
+      };
+      const candidates =
+        data.data ??
+        data.items ??
+        data.content ??
+        data.addresses ??
+        data.addressList ??
+        data.addressDTOList ??
+        data.addressDtoList ??
+        data.addressDtos;
       if (Array.isArray(candidates)) {
         return candidates.map(normalize) as Address[];
       }

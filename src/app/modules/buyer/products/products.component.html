@@ -74,8 +74,11 @@
           </label>
         </div>
         <div class="cta-row">
-          <button class="btn-outline" (click)="addToCart(p)">
-            Add to Cart
+          <button
+            class="btn-outline"
+            [class.is-adding]="addingFeedback[p.id]"
+            (click)="addToCart(p)">
+            <span class="btn-label" [class.is-adding]="addingFeedback[p.id]">Add to Cart</span>
           </button>
           <button class="btn" [routerLink]="['/buyer/product', p.id]">
             View Details
